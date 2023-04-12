@@ -1,38 +1,37 @@
-$(document).ready(function () {
+document.addEventListener('DOMContentLoaded', function() {
 
-  $('#menu').click(function () {
-    $(this).toggleClass('fa-times');
-    $('header').toggleClass('toggle');
+  var menu = document.getElementById('menu');
+  var header = document.querySelector('header');
+  var top = document.querySelector('.top');
+  var links = document.querySelectorAll('a[href*="#"]');
+
+  // menu click event listener
+  menu.addEventListener('click', function() {
+    this.classList.toggle('fa-times');
+    header.classList.toggle('toggle');
   });
 
-  $(window).on('scroll load', function () {
-
-    $('#menu').removeClass('fa-times');
-    $('header').removeClass('toggle');
-
-    if ($(window).scrollTop() > 0) {
-      $('.top').show();
+  // scroll event listener
+  window.addEventListener('scroll', function() {
+    menu.classList.remove('fa-times');
+    header.classList.remove('toggle');
+    if (window.scrollY > 0) {
+      top.style.display = 'block';
     } else {
-      $('.top').hide();
+      top.style.display = 'none';
     }
-
   });
 
-  // smooth scrolling 
-
-  $('a[href*="#"]').on('click', function (e) {
-
-    e.preventDefault();
-
-    $('html, body').animate({
-
-      scrollTop: $($(this).attr('href')).offset().top,
-
-    },
-      500,
-      'linear'
-    );
-
-  });
+  // smooth scrolling for links
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.querySelector(this.getAttribute('href'));
+      window.scrollTo({
+        top: target.offsetTop,
+        behavior: 'smooth'
+      });
+    });
+  }
 
 });
